@@ -28,9 +28,6 @@ navigation:
   - {file: "software.md", icon: cube}
 
 external:                    # see http://fontawesome.com/icons
-  - {title: Mail, icon: envelope, url: "mailto:sam@hussainsam.com"}
-  - {title: Github, icon: github, url: "https://github.com/hussainsam"}
-  - {title: LinkedIn, icon: linkedin, url: "https://www.linkedin.com/in/hussainsam"}
   - {title: RSS, icon: rss, url: "/feed.xml"}
 
 comments:
