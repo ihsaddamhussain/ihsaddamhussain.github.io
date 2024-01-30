@@ -18,9 +18,6 @@ comments: false
 <a href="https://auth.geeksforgeeks.org/user/hussainsam/profile" target="blank"><img align="center" src="https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/geeksforgeeks.svg" alt="hussainsam" height="30" width="40" /></a>
  <a href = "mailto: hussainsam76@gmail.com"><img align="center" src="https://simpleicons.org/icons/gmail.svg" height="30" width="40" /></a>
 </p>
-</p>
-
-
 
 
 <p align="center">
