@@ -1,5 +1,5 @@
-title: "Piotr Kołaczkowski"
-author: "Piotr Kołaczkowski"
+title: "Saddam Hussain"
+author: "Saddam Hussain"
 description: "Blog on programming, optimization and performance analysis"
 permalink: /:title/
 lang: "en"
@@ -28,9 +28,9 @@ navigation:
   - {file: "software.md", icon: cube}
 
 external:                    # see http://fontawesome.com/icons
-  - {title: Mail, icon: envelope, url: "mailto:pkolaczk@gmail.com"}
-  - {title: Github, icon: github, url: "https://github.com/pkolaczk"}
-  - {title: LinkedIn, icon: linkedin, url: "https://www.linkedin.com/in/pkolaczk"}
+  - {title: Mail, icon: envelope, url: "mailto:sam@hussainsam.com"}
+  - {title: Github, icon: github, url: "https://github.com/ihsaddamhussain"}
+  - {title: LinkedIn, icon: linkedin, url: "https://www.linkedin.com/in/hussainsam"}
   - {title: RSS, icon: rss, url: "/feed.xml"}
 
 comments:
