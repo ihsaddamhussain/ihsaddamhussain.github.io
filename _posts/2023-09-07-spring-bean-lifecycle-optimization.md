@@ -2,20 +2,6 @@
 
 In Spring Boot applications, efficient management of bean lifecycle and initialization is crucial for optimal performance. This article dives deeper into the insides of Spring bean lifecycle, common pitfalls, and best practices for optimization.
 
-## Table of Contents
-1. [Understanding Spring Bean Lifecycle](#1-understanding-spring-bean-lifecycle)
-2. [Common Performance Issues in Bean Initialization](#2-common-performance-issues-in-bean-initialization)
-3. [Optimization Techniques](#3-optimization-techniques)
-   3.1. [Lazy Initialization](#31-lazy-initialization)
-   3.2. [Async Initialization](#32-async-initialization)
-   3.3. [Conditional Bean Creation](#33-conditional-bean-creation)
-   3.4. [Constructor Injection vs. Field Injection](#34-constructor-injection-vs-field-injection)
-   3.5. [Prototype Scoped Beans](#35-prototype-scoped-beans)
-   3.6. [Bean Validation](#36-bean-validation)
-4. [Best Practices and Guidelines](#4-best-practices-and-guidelines)
-5. [Measuring and Monitoring Bean Initialization](#5-measuring-and-monitoring-bean-initialization)
-6. [Conclusion](#6-conclusion)
-
 ## 1. Understanding Spring Bean Lifecycle
 
 The Spring bean lifecycle consists of several phases:
