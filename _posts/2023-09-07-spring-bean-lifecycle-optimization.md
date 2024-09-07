@@ -1,4 +1,10 @@
-# Optimizing Spring Bean Lifecycle and Initialization
+---
+layout: post
+title: Optimizing Spring Bean Lifecycle and Initialization
+comments: true
+tags: spring boot performance optimization
+excerpt_separator: <!--more-->
+---
 
 In Spring Boot applications, efficient management of bean lifecycle and initialization is crucial for optimal performance. This article dives deeper into the insides of Spring bean lifecycle, common pitfalls, and best practices for optimization.
 
