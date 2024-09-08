@@ -237,9 +237,195 @@ public static void processFilesInParallel(List<String> filenames) {
 }
 ```
 
-## 7. Conclusion
+## 7. Common Pitfalls and Bad Practices in File I/O
 
-Optimizing File I/O operations is crucial for improving the overall performance of Java and Spring Boot applications. By understanding the different I/O mechanisms available in Java, choosing the right approach for your specific use case, and following best practices, you can significantly reduce I/O-related bottlenecks.
+### 7.1. Not Closing Resources Properly
+
+Bad Practice:
+```java
+public static void readFile(String filename) throws IOException {
+    FileInputStream fis = new FileInputStream(filename);
+    // Read from file
+    // No closing of the stream
+}
+```
+
+Good Practice:
+```java
+public static void readFile(String filename) throws IOException {
+    try (FileInputStream fis = new FileInputStream(filename)) {
+        // Read from file
+    } // Resource is automatically closed here
+}
+```
+
+### 7.2. Inefficient Reading/Writing of Small Chunks
+
+Bad Practice:
+```java
+public static void copyFile(String source, String dest) throws IOException {
+    try (FileInputStream fis = new FileInputStream(source);
+         FileOutputStream fos = new FileOutputStream(dest)) {
+        int b;
+        while ((b = fis.read()) != -1) {
+            fos.write(b);
+        }
+    }
+}
+```
+
+Good Practice:
+```java
+public static void copyFile(String source, String dest) throws IOException {
+    try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(source));
+         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(dest))) {
+        byte[] buffer = new byte[8192];
+        int bytesRead;
+        while ((bytesRead = bis.read(buffer)) != -1) {
+            bos.write(buffer, 0, bytesRead);
+        }
+    }
+}
+```
+
+### 7.3. Ignoring Encoding When Reading/Writing Text Files
+
+Bad Practice:
+```java
+public static String readFile(String filename) throws IOException {
+    try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+        // Read file
+    }
+}
+```
+
+Good Practice:
+```java
+public static String readFile(String filename) throws IOException {
+    try (BufferedReader reader = new BufferedReader(
+            new InputStreamReader(new FileInputStream(filename), StandardCharsets.UTF_8))) {
+        // Read file
+    }
+}
+```
+
+### 7.4. Excessive File System Calls
+
+Bad Practice:
+```java
+public static void writeLines(String filename, List<String> lines) throws IOException {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+        for (String line : lines) {
+            writer.write(line);
+            writer.newLine();
+            writer.flush(); // Excessive flushing
+        }
+    }
+}
+```
+
+Good Practice:
+```java
+public static void writeLines(String filename, List<String> lines) throws IOException {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+        for (String line : lines) {
+            writer.write(line);
+            writer.newLine();
+        }
+        // Flush once at the end
+        writer.flush();
+    }
+}
+```
+
+### 7.5. Not Handling Exceptions Properly
+
+Bad Practice:
+```java
+public static void readFile(String filename) {
+    try {
+        // Read file
+    } catch (IOException e) {
+        // Do nothing or just e.printStackTrace();
+    }
+}
+```
+
+Good Practice:
+```java
+public static void readFile(String filename) throws IOException {
+    try {
+        // Read file
+    } catch (IOException e) {
+        // Log the error
+        logger.error("Error reading file: " + filename, e);
+        // Optionally, perform cleanup operations
+        // Then, rethrow or wrap the exception
+        throw new RuntimeException("Failed to read file: " + filename, e);
+    }
+}
+```
+
+### 7.6. Using File I/O on the Main Thread in Android
+
+Bad Practice:
+```java
+public void onButtonClick(View view) {
+    String content = readLargeFile("data.txt"); // Blocks UI thread
+    displayContent(content);
+}
+```
+
+Good Practice:
+```java
+public void onButtonClick(View view) {
+    new AsyncTask<Void, Void, String>() {
+        @Override
+        protected String doInBackground(Void... voids) {
+            return readLargeFile("data.txt");
+        }
+
+        @Override
+        protected void onPostExecute(String content) {
+            displayContent(content);
+        }
+    }.execute();
+}
+```
+
+### 7.7. Not Considering the File System
+
+Bad Practice:
+Assuming all file systems behave the same way and not optimizing for the specific file system in use.
+
+Good Practice:
+Consider the characteristics of the file system you're working with. For example, some file systems perform better with larger block sizes, while others might have specific optimizations for certain types of operations.
+
+### 7.8. Unnecessary Use of Randomized Access
+
+Bad Practice:
+```java
+public static void appendToFile(String filename, String data) throws IOException {
+    try (RandomAccessFile file = new RandomAccessFile(filename, "rw")) {
+        file.seek(file.length());
+        file.writeBytes(data);
+    }
+}
+```
+
+Good Practice:
+```java
+public static void appendToFile(String filename, String data) throws IOException {
+    try (FileWriter fw = new FileWriter(filename, true);
+         BufferedWriter bw = new BufferedWriter(fw)) {
+        bw.write(data);
+    }
+}
+```
+
+## 8. Conclusion
+
+Optimizing File I/O operations is crucial for improving the overall performance of Java and Spring Boot applications. By understanding the different I/O mechanisms available in Java, choosing the right approach for your specific use case, following best practices, and avoiding common pitfalls, you can significantly reduce I/O-related bottlenecks.
 
 Remember that the best optimization strategy depends on your specific use case. Always measure performance before and after optimization to ensure your changes are having the desired effect. Also, consider the trade-offs between performance, code complexity, and maintainability when implementing these optimizations.
 
